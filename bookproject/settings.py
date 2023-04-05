@@ -143,6 +143,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = "index"
 LOGOUT_REDIRECT_URL = "index"
-
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
