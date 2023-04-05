@@ -128,6 +128,7 @@ def index_view(request):
     # print("index_view is called")
     object_list = Book.objects.order_by("-id")
     # templatename,model
+    ranking_views = Book.objects.order_by("-views")
     ranking_list = Book.objects.annotate(
         avg_rating=Avg("review__rate")).order_by("-avg_rating")
 
@@ -138,7 +139,7 @@ def index_view(request):
     # query = request.GET.get('number')
     # print(query)
     # print(ranking_list[0].avg_rating)
-    return render(request, "book/index.html", {"object_list": object_list, "ranking_list": ranking_list, "page_obj": page_obj},)
+    return render(request, "book/index.html", {"object_list": object_list, "ranking_views": ranking_views, "ranking_list": ranking_list, "page_obj": page_obj},)
 
 
 # def logout_view(request):
