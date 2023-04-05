@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ""
+SECRET_KEY = '$+-x6rwfhx-t&-q5j9uk_x=##1&z+v*q#5uqcj!f6fr)8m(rt9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -79,12 +79,12 @@ WSGI_APPLICATION = 'bookproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'komekopan2$testdb',
+        'NAME': 'komekopan2$testdb2',
         'USER': 'komekopan2',
         'PASSWORD': 'Py55112299',
         'HOST': 'komekopan2.mysql.pythonanywhere-services.com',
         'TEST': {
-            'NAME': 'komekopan2$test_testdb',
+            'NAME': 'komekopan2$test_testdb2',
         },
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
@@ -143,3 +143,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = "index"
 LOGOUT_REDIRECT_URL = "index"
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
