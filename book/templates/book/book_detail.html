@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{object.title}}{% endblock %}
+{% block h1 %}{{object.title}}{% endblock %}
+
+{% block content %}
+<!-- Bootstrapのグリッドシステム-->
+<br>
+<div class="album py-5 bg-light">
+
+    <div class="container">
+        <!-- 行を配置 -->
+        <div class="row">
+            <!-- 列の左右に余白offset-3を入れる-->
+            <div class="col offset-0">
+                <!-- タイトル -->
+                <!-- <h2>{{object.title}}</h2> -->
+                <h2 class="card-title">{{object.title}}</h2>
+                <h6>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye-check" width="20"
+                        height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path>
+                        <path
+                            d="M11.143 17.961c-3.221 -.295 -5.936 -2.281 -8.143 -5.961c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.222 .37 -.449 .722 -.68 1.057">
+                        </path>
+                        <path d="M15 19l2 2l4 -4"></path>
+                    </svg>
+                    {{object.views}}回 ・
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-circle" width="20"
+                        height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+                        <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                        <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855"></path>
+                    </svg>
+                    {{object.user}}
+                </h6>
+                <div class="px-2">
+                    <span>
+                        {% if object.url %}
+                        <p>{{object.url|urlize}}</p>
+                        {% endif %}
+                    </span>
+                    <!-- コメント -->
+                    <p>{{object.text}}</p>
+
+                </div>
+                <br>
+                <!-- 1枚目の写真 -->
+                {% if object.thumbnail %}
+                <p><img src="{{ object.thumbnail.url }}" height="500"></img></p>
+                {% else %}
+                <p><img src="{% static 'book/noimage.png' %}" height="500"></img></p>
+                {% endif %}
+
+
+                <a href="{% url 'review' object.pk %}" class="btn btn-primary">レビューする</a>
+                <a href="{% url 'update-book' object.pk %}" class="btn btn-primary">編集する</a>
+                <a href="{% url 'delete-book' object.pk %}" class="btn btn-primary">削除する</a>
+                <span class="mb-2 small text-danger d-block text-start">編集と削除は投稿者の方のみご利用頂けます。</span>
+
+
+                <br>
+                {% if object.review_set.all %}
+                <div class="border p-4 mb-2">
+                    {% for review in object.review_set.all %}
+                    <div>
+                        <h3 class="h4">{{review.title}}</h3>
+                        <div class="px-2">
+                            <span>(投稿ユーザー: {{review.user.username}})</span>
+                            <h6>評価:{{review.rate}}点</h6>
+                            <p>{{review.text}}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                {% else %}
+                <div class="border p-4 mb-2">
+                    <span class="mb-2 small d-block text-start">まだコメントはありません。</span>
+                </div>
+
+
+                {% endif %}
+
+
+            </div>
+        </div>
+    </div>
+    {% endblock content %}
