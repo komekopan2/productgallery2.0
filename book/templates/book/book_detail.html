@@ -62,9 +62,9 @@
                 <br>
                 <!-- 1枚目の写真 -->
                 {% if object.thumbnail %}
-                <p><img src="{{ object.thumbnail.url }}" height="500"></img></p>
+                <p><img src="{{ object.thumbnail.url }}" height="225"></img></p>
                 {% else %}
-                <p><img src="{% static 'book/noimage.png' %}" height="500"></img></p>
+                <p><img src="{% static 'book/noimage.png' %}" height="225"></img></p>
                 {% endif %}
 
 
