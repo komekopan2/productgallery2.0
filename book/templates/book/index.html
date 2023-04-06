@@ -26,10 +26,18 @@
                 <a href="{% url 'accounts:login' %}" class="btn btn-secondary my-2">ログイン</a>
                 {% endif %}
             </p>
+            {% if messages %}
+            <ul>
+                {% for message in messages %}
+                <p class="mb-1">
+                    {{ message }}
+                </p>
+                {% endfor %}
+            </ul>
+            {% endif %}
         </div>
     </div>
 </section>
-
 
 <div class="col-auto m-1">
     <select class="form-control" id="sample" onchange="viewChange();">
