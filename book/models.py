@@ -6,8 +6,8 @@ from .consts import MAX_RATE
 # class SampleModel(models.Model):
 #     title = models.CharField(max_length=100)
 #     number = models.IntegerField()
-CATEGORY = (("web", "web"), ("sumaho", "スマホアプリ"),
-            ("xr", "XR"), ("game", "ゲーム"), ("other", "その他"))
+CATEGORY = (("web", "web"), ("sumaho", "Mobile"),
+            ("xr", "XR"), ("game", "game"), ("other", "other"))
 
 RATE_CHOICES = [(x, str(x)) for x in range(0, MAX_RATE+1)]
 
