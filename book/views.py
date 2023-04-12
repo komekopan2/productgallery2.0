@@ -124,24 +124,39 @@ class CreateReviewView(LoginRequiredMixin, CreateView):
         return reverse("detail-book", kwargs={"pk": self.object.book.id})
 
 
+class IndexBookView(ListView):
+    template_name = "book/index.html"
+    # htmlファイルで↓のモデルの中身が使いまわされる
+    model = Book
+    context_object_name = "object_list"
+
+    def get_context_data(self, **kwargs):
+        context = super(IndexBookView, self).get_context_data(**kwargs)
+        context.update({
+            # さらにテンプレートに載せたいモデルがあれば下記に追記
+            # テンプレートで使う変数:querysetオブジェクト
+            'ranking_list': Book.objects.annotate(
+                avg_rating=Avg("review__rate")).order_by("-avg_rating")
+        })
+        return context
+
+    def get_queryset(self):
+        return Book.objects.order_by("-id")
+
+
+""" 
 def index_view(request):
-    # print("index_view is called")
     object_list = Book.objects.order_by("-id")
-    # templatename,model
-    # ranking_views = Book.objects.order_by("-views")
     ranking_list = Book.objects.annotate(
         avg_rating=Avg("review__rate")).order_by("-avg_rating")
 
-    paginator = Paginator(ranking_list, ITEM_PER_PAGE)
-    page_number = request.GET.get('page', 1)
-    page_obj = paginator.page(page_number)
+    # paginator = Paginator(ranking_list, ITEM_PER_PAGE)
+    # page_number = request.GET.get('page', 1)
+    # page_obj = paginator.page(page_number)
+    
+    return render(request, "book/index.html", {"object_list": object_list, "ranking_list": ranking_list,})
 
-    # query = request.GET.get('number')
-    # print(query)
-    # print(ranking_list[0].avg_rating)
-    return render(request, "book/index.html", {"object_list": object_list, "ranking_list": ranking_list, "page_obj": page_obj},)
-
-
+ """
 # def logout_view(request):
 #     logout(request)
 #     return redirect("index")  # success_url
