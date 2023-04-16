@@ -4,5 +4,6 @@ from django.contrib.auth.models import User
 
 class SignupForm(UserCreationForm):
     class Meta:
+        # UserクラスをSignupForm作るクラス
         model = User
         fields = ("username",)

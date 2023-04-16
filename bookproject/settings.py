@@ -130,6 +130,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # staticフォルダの場所を設定
+# BASE_DIRの配下にあるstaticディレクトリを指す
+# os.path.joinを使うことでOSによって違う階層構造の表現方法を抽象化できる
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/')]
 
 MEDIA_URL = "/media/"

@@ -25,6 +25,7 @@ class Book(models.Model):
     views = models.PositiveIntegerField(default=0)
 
     def __str__(self):
+        # selfはインスタンスのこと
         return self.title  # title = models.CharField(max_length=100)
 
 
