@@ -79,12 +79,12 @@ WSGI_APPLICATION = 'bookproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'komekopan2$testdb2',
+        'NAME': 'komekopan2$testdb3',
         'USER': 'komekopan2',
         'PASSWORD': 'Py55112299',
         'HOST': 'komekopan2.mysql.pythonanywhere-services.com',
         'TEST': {
-            'NAME': 'komekopan2$test_testdb2',
+            'NAME': 'komekopan2$test_testdb3',
         },
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
