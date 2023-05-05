@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "accounts.apps.AccountsConfig",
     "book.apps.BookConfig",
-    "django_ses"
 ]
 
 MIDDLEWARE = [
@@ -77,21 +76,35 @@ WSGI_APPLICATION = 'bookproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'komekopan2$testdb4',
-        'USER': 'komekopan2',
-        'PASSWORD': 'Py55112299',
-        'HOST': 'komekopan2.mysql.pythonanywhere-services.com',
-        'TEST': {
-            'NAME': 'komekopan2$test_testdb4',
-        },
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'bookproject2.0',
+        # 'USER': 'postgres',
+        # 'PASSWORD': 'Pr794613',
+        'USER': os.environ.get("DB_USER"),
+        'PASSWORD': os.environ.get("DB_PASSWORD"),
+        'HOST': '',
+        'PORT': '',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'komekopan2$testdb4',
+#         'USER': 'komekopan2',
+#         'PASSWORD': 'Py55112299',
+#         'HOST': 'komekopan2.mysql.pythonanywhere-services.com',
+#         'TEST': {
+#             'NAME': 'komekopan2$test_testdb4',
+#         },
+#         'OPTIONS': {
+#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+#         },
+#     }
+# }
 
 
 # Password validation
@@ -152,6 +165,9 @@ LOGOUT_REDIRECT_URL = "index"
 # CSRF_COOKIE_SECURE = True
 # SESSION_COOKIE_SECURE = True
 
-AWS_SES_ACCESS_KEY_ID = os.environ.get("AWS_SES_ACCESS_KEY_ID")
-AWS_SES_SECRET_ACCESS_KEY = os.environ.get("AWS_SES_SECRET_ACCESS_KEY")
-EMAIL_BACKEND = "django_ses.SESBackend"
+
+# export DB_USER=app_admin
+# export DB_PASSWORD="Pr794613"
+# export DJANGO_SETTINGS_MODULE=bookproject.settings
+# export ALLOWED_HOSTS=<Elastic IP>
+# export DJANGO_SECRET_KEY="$+-x6rwfhx-t&-q5j9uk_x=##1&z+v*q#5uqcj!f6fr)8m(rt9"
