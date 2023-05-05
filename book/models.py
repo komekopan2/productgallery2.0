@@ -24,6 +24,9 @@ class Book(models.Model):
     user = models.ForeignKey("auth.User", on_delete=models.CASCADE)
     views = models.PositiveIntegerField(default=0)
 
+    # class Meta:
+    #     verbose_name_plural = "Book"
+
     def __str__(self):
         # selfはインスタンスのこと
         return self.title  # title = models.CharField(max_length=100)
@@ -35,6 +38,9 @@ class Review(models.Model):
     text = models.TextField()
     rate = models.IntegerField(choices=RATE_CHOICES)
     user = models.ForeignKey("auth.User", on_delete=models.CASCADE)
+
+    # class Meta:
+    #     verbose_name_plural = "Book"
 
     def __str__(self):
         return self.title
