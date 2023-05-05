@@ -147,12 +147,12 @@ STATIC_URL = '/static/'
 # BASE_DIRの配下にあるstaticディレクトリを指す
 # os.path.joinを使うことでOSによって違う階層構造の表現方法を抽象化できる
 # STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/')]
-STATIC_ROOT = '/usr/share/nginz/html/static'
+STATIC_ROOT = '/usr/share/nginx/html/static'
 
 MEDIA_URL = "/media/"
 
 # MEDIA_ROOT = BASE_DIR / "media"
-MEDIA_ROOT = '/usr/share/nginz/html/media'
+MEDIA_ROOT = '/usr/share/nginx/html/media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
