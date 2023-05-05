@@ -21,13 +21,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ''
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["komekopan2.pythonanywhere.com"]
-
+# ALLOWED_HOSTS = ["komekopan2.pythonanywhere.com"]
+ALLOWED_HOSTS = [os.environ.get("ALLOWED_HOSTS")]
 
 # Application definition
 
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "accounts.apps.AccountsConfig",
     "book.apps.BookConfig",
+    "django_ses"
 ]
 
 MIDDLEWARE = [
@@ -132,11 +133,13 @@ STATIC_URL = '/static/'
 # staticフォルダの場所を設定
 # BASE_DIRの配下にあるstaticディレクトリを指す
 # os.path.joinを使うことでOSによって違う階層構造の表現方法を抽象化できる
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/')]
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/')]
+STATIC_ROOT = '/usr/share/nginz/html/static'
 
 MEDIA_URL = "/media/"
 
-MEDIA_ROOT = BASE_DIR / "media"
+# MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_ROOT = '/usr/share/nginz/html/media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -148,3 +151,7 @@ LOGOUT_REDIRECT_URL = "index"
 
 # CSRF_COOKIE_SECURE = True
 # SESSION_COOKIE_SECURE = True
+
+AWS_SES_ACCESS_KEY_ID = os.environ.get("AWS_SES_ACCESS_KEY_ID")
+AWS_SES_SECRET_ACCESS_KEY = os.environ.get("AWS_SES_SECRET_ACCESS_KEY")
+EMAIL_BACKEND = "django_ses.SESBackend"
