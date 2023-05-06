@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'bookproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'bookproject2.0',
+        'NAME': 'bookproject',
         # 'USER': 'postgres',
         # 'PASSWORD': 'Pr794613',
         'USER': os.environ.get("DB_USER"),
@@ -165,9 +165,12 @@ LOGOUT_REDIRECT_URL = "index"
 # CSRF_COOKIE_SECURE = True
 # SESSION_COOKIE_SECURE = True
 
+BACKUP_PATH = "backup/"
+NUM_SAVED_BACKUP = 30
 
 # export DB_USER=app_admin
 # export DB_PASSWORD="Pr794613"
 # export DJANGO_SETTINGS_MODULE=bookproject.settings
 # export ALLOWED_HOSTS=<Elastic IP>
 # export DJANGO_SECRET_KEY="$+-x6rwfhx-t&-q5j9uk_x=##1&z+v*q#5uqcj!f6fr)8m(rt9"
+
