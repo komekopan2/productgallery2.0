@@ -4,3 +4,4 @@ local_settings.py
 media
 book/management
 bookproject/settings_common.py
+backup
