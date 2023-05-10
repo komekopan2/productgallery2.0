@@ -34,7 +34,11 @@ https://komekopan2.pythonanywhere.com/
 - ログアウト
 
 ## ER図
-![er_diagram](https://user-images.githubusercontent.com/103621657/230900984-3b77fdce-ac99-4cba-b45e-18b6463d16a9.png)
+<img src="https://user-images.githubusercontent.com/103621657/230900984-3b77fdce-ac99-4cba-b45e-18b6463d16a9.png" height="750px">
+
+## システム構成図
+<img src="https://github.com/komekopan2/productgallery2.0/assets/103621657/246591e5-be66-4522-b1d4-ca131da08e09" height="300px">
+
 ## 実装予定の機能
 - プロダクト一覧画面にフィルター機能を付け、投稿したユーザーで絞り込みできる機能
 - ソーシャルログインの導入
