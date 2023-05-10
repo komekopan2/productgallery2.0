@@ -36,6 +36,28 @@ https://komekopan2.pythonanywhere.com/
 ## ER図
 <img src="https://user-images.githubusercontent.com/103621657/230900984-3b77fdce-ac99-4cba-b45e-18b6463d16a9.png" height="750px">
 
+## 使用技術
+### フロントエンド
+- HTML
+- CSS
+- JavaScript
+- BootStrap
+
+### バックエンド
+- Python3
+- Django
+
+### インフラ
+- AWS(EC2)
+- Nginx
+- Gunicorn
+- PostgreSQL
+- SQLite
+
+### その他
+- Git/GitHub
+- Let's Encrypt
+
 ## システム構成図
 <img src="https://github.com/komekopan2/productgallery2.0/assets/103621657/246591e5-be66-4522-b1d4-ca131da08e09" height="300px">
 
