@@ -1,5 +1,13 @@
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
+# q:このファイルは何？
+# a:djangoのコマンドラインユーティリティー
+# q:何をする？
+# a:djangoの管理タスクを実行する
+# q:どうやって？
+# a:django.core.management.execute_from_command_line(sys.argv)
+# q:どうやって使う？
+# a:python manage.py <command>
 import os
 import sys
 

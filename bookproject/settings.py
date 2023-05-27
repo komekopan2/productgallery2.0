@@ -10,12 +10,18 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+# q:このファイルは何？
+# a:djangoの設定ファイル
+
 from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+# Path(__file__)はこのファイルのファイル名を返す
+# Path(__file__).resolve()はこのファイルの絶対パスを返す
+# Path(__file__).resolve().parentはこのファイルの親ディレクトリの絶対パスを返す
+# Path(__file__).resolve().parent.parentはこのファイルの親ディレクトリの親ディレクトリの絶対パスを返す
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -42,6 +48,7 @@ INSTALLED_APPS = [
     "book.apps.BookConfig",
 ]
 
+# MIDDLEWAREには、Djangoの内部でリクエストとレスポンスの間に挟まれる処理を記述する
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -52,12 +59,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# ROOT_URLCONFは、ブラウザからrequestが送られてきた時に、最初にそのrequestを受け取るファイルを指定する
 ROOT_URLCONF = 'bookproject.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR/"templates"],
+        # DIRS: テンプレートを探す際のディレクトリを指定する
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -110,6 +119,7 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
+# パスワードのバリデーションを設定する。すなわち、パスワードの文字数や、パスワードに含める文字の種類を指定する
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
