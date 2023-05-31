@@ -13,6 +13,21 @@ from django.views import generic
 import os
 # Create your views here.
 
+# q:このファイルは何？
+# a:ビューを定義するためのファイル
+# q:ビューとは何？
+# a:ユーザーからのリクエストを受け取り、レスポンスを返す関数
+# q:ビューを定義するためには、どのように記述する？
+# a:関数を作成する
+# q:ビューの関数の引数は何がある？
+# a:リクエストオブジェクト
+# q:リクエストオブジェクトとは何？
+# a:ユーザーからのリクエストに関する情報を持つオブジェクト
+# q:リクエストオブジェクトの中身はどのように確認する？
+# a:print(request)で確認する
+# q:リクエストオブジェクトの中身はどのように使う？
+# a:リクエストオブジェクト.属性名で使う
+
 
 class ListBookView(LoginRequiredMixin, ListView):
     template_name = "book/book_list.html"

@@ -2,6 +2,14 @@ from django.db import models
 from .consts import MAX_RATE
 # Create your models here.
 
+# q:このファイルは何？
+# a:モデルを定義するためのファイル
+# q:モデルとは何？
+# a:データベースのテーブルのこと
+# q:モデルを定義するためには、どのように記述する？
+# a:models.Modelを継承したクラスを作成する
+# q:モデルのフィールドを定義するためには、どのように記述する？
+# a:フィールド名 = models.フィールドの種類(オプション)
 
 # class SampleModel(models.Model):
 #     title = models.CharField(max_length=100)
