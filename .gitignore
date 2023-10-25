@@ -5,3 +5,4 @@ media/
 backup/
 __pycache__/
 venv/
+.vscode/
