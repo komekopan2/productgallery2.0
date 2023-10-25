@@ -1,6 +1,7 @@
 db.sqlite3
 local_settings.py
 .env
-media
-backup
+media/
+backup/
 __pycache__/
+venv/
