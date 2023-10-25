@@ -3,7 +3,7 @@
 ## アプリケーション概要
 個人開発やチーム開発で作成したプロダクトを投稿するサイトです。
 ## URL
-https://komekopan2.pythonanywhere.com/
+https://yo-tech.shimizu-v.net/
 ## テスト用アカウント
 - ユーザ ID：あんぱん
 - パスワード：Zx74107410
