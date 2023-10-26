@@ -1,6 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
-from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    DeleteView,
+    UpdateView,
+)
 from .models import Book, Review
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -9,8 +15,10 @@ from django.db.models import Avg
 from django.core.paginator import Paginator
 from .consts import ITEM_PER_PAGE
 from django.views import generic
+
 # from .forms import CreateBookForm
 import os
+
 # Create your views here.
 
 # q:このファイルは何？
@@ -59,32 +67,6 @@ class CreateBookView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         # ユーザー情報の追加をする関数
         form.instance.user = self.request.user
-
-        """ save_path = str("media/"+self.request.FILES['picture'])
-        up_data = self.request.FILES['picture']
-        with open(save_path, 'wb+') as i:
-            for chunk in up_data.chunks():
-                i.write(chunk)
-        with PIL.Image.open(save_path) as image:
-            os.remove(save_path)
-
-            # 画像の縦横比をそのままに480×640以下にリサイズ
-            resized_height = 640 / int(image.size[0]) * image.size[1]
-            resized_image = image.resize((640, int(resized_height)))
-            if resized_height > 480:
-                resized_width = 480 / int(image.size[1]) * image.size[0]
-                resized_image = resized_image.resize((int(resized_width), 480))
-
-            image_io = io.BytesIO()
-            resized_image.save(image_io, format="JPEG")
-            image_file = InMemoryUploadedFile(image_io, field_name=None, name=save_path,
-                                              content_type="image/jpeg", size=image_io.getbuffer().nbytes,
-                                              charset=None)
-
-        post = form.save(commit=False)
-        post.picture = image_file
-        post.save() """
-
         return super().form_valid(form)
 
 
@@ -147,12 +129,15 @@ class IndexBookView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexBookView, self).get_context_data(**kwargs)
-        context.update({
-            # さらにテンプレートに載せたいモデルがあれば下記に追記
-            # テンプレートで使う変数:querysetオブジェクト
-            'ranking_list': Book.objects.annotate(
-                avg_rating=Avg("review__rate")).order_by("-avg_rating")
-        })
+        context.update(
+            {
+                # さらにテンプレートに載せたいモデルがあれば下記に追記
+                # テンプレートで使う変数:querysetオブジェクト
+                "ranking_list": Book.objects.annotate(
+                    avg_rating=Avg("review__rate")
+                ).order_by("-avg_rating")
+            }
+        )
         return context
 
     def get_queryset(self):
