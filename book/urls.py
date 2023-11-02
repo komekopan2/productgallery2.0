@@ -1,14 +1,12 @@
 from django.urls import path
 from . import views
+
 urlpatterns = [
     # path("", views.index_view, name="index"),
-    path("", views.IndexBookView.as_view(), name="index"),
-    path("book/", views.ListBookView.as_view(), name="list-book"),
-    path("book/<int:pk>/detail/", views.DetailBookView.as_view(), name="detail-book"),
-    path("book/create/", views.CreateBookView.as_view(), name="create-book"),
-    path("book/<int:pk>/delete/", views.DeleteBookView.as_view(), name="delete-book"),
-    path("book/<int:pk>/update/", views.UpdateBookView.as_view(), name="update-book"),
-    path("book/<int:book_id>/review/",
-         views.CreateReviewView.as_view(), name="review"),
-    # path("logout/", views.logout_view, name="logout"),
+    path("", views.index_book_view, name="index"),
+    path("book/<int:pk>/", views.detail_book_view, name="detail-book"),
+    path("book/create/", views.create_book_view, name="create-book"),
+    path("book/<int:pk>/delete/", views.delete_book_view, name="delete-book"),
+    path("book/<int:pk>/update/", views.update_book_view, name="update-book"),
+    path("book/<int:book_id>/review/", views.create_review_view, name="review"),
 ]
