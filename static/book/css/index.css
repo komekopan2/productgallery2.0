@@ -1,0 +1,17 @@
+/* スマートフォンの画面の場合 */
+@media (max-width: 767px) {
+    .col-auto {
+        width: 100%;
+        max-width: 500px;
+        /* 好きな最大値に変更してください */
+    }
+}
+
+/* PCの画面の場合 */
+@media (min-width: 768px) {
+    .col-auto {
+        width: 100%;
+        max-width: 9%;
+        /* 好きな割合に変更してください */
+    }
+}
