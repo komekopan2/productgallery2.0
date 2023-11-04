@@ -37,7 +37,6 @@ def index_book_view(request, user=None):
     )
 
 
-@login_required
 def detail_book_view(request, pk):
     book = (
         Book.objects.filter(pk=pk)
