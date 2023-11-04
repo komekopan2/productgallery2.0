@@ -80,7 +80,9 @@ def index_book_view(request):
             output_field=IntegerField(),
         ),
     ).order_by(
-        "-rating_exists", "-avg_rating"  # まずはレビューが存在するかどうかで並べ替え  # 次に平均レーティングで並べ替え
+        "-rating_exists",
+        "-avg_rating",
+        "-review_count",  # まずはレビューが存在するかどうかで並べ替え、次に平均レーティング、レビュー数の順で並べ替え
     )
 
     return render(
