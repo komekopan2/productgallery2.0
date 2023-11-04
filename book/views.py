@@ -4,7 +4,7 @@ from .models import Book, Review
 from django.urls import reverse
 from django.core.exceptions import PermissionDenied
 from .forms import BookForm, ReviewForm
-from django.db.models import Avg, Case, When, Value, IntegerField
+from django.db.models import Avg, Case, When, Value, IntegerField, Count
 
 
 @login_required
@@ -66,10 +66,13 @@ def create_review_view(request, book_id):
 
 
 def index_book_view(request):
-    index_book_list = Book.objects.order_by("-id")
+    index_book_list = Book.objects.annotate(
+        avg_rating=Avg("review__rate"), review_count=Count("review")
+    ).order_by("-id")
 
     review_ranking = Book.objects.annotate(
         avg_rating=Avg("review__rate"),
+        review_count=Count("review"),
         # 以下のCase Whenはavg_ratingがNULLでない場合は1、そうでない場合は0をrating_existsに格納
         rating_exists=Case(
             When(review__rate__isnull=False, then=Value(1)),
