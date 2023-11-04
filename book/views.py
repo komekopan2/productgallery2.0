@@ -9,10 +9,14 @@ from django.db.models import Avg, Case, When, Value, IntegerField, Count
 
 @login_required
 def detail_book_view(request, pk):
-    book = get_object_or_404(Book, pk=pk)
+    book = (
+        Book.objects.filter(pk=pk)
+        .annotate(avg_rating=Avg("review__rate"), review_count=Count("review"))
+        .get()
+    )
     book.views += 1
     book.save()
-    return render(request, "book/book_detail.html", {"object": book})
+    return render(request, "book/book_detail.html", {"item": book})
 
 
 @login_required
