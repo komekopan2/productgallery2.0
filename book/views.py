@@ -2,9 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Book, Review
 from django.urls import reverse
-from django.db.models import Avg
 from django.core.exceptions import PermissionDenied
 from .forms import BookForm, ReviewForm
+from django.db.models import Avg, Case, When, Value, IntegerField
 
 
 @login_required
@@ -66,10 +66,22 @@ def create_review_view(request, book_id):
 
 
 def index_book_view(request):
-    books = Book.objects.order_by("-id")
-    ranking_list = Book.objects.annotate(avg_rating=Avg("review__rate")).order_by(
-        "-avg_rating"
+    index_book_list = Book.objects.order_by("-id")
+
+    review_ranking = Book.objects.annotate(
+        avg_rating=Avg("review__rate"),
+        # 以下のCase Whenはavg_ratingがNULLでない場合は1、そうでない場合は0をrating_existsに格納
+        rating_exists=Case(
+            When(review__rate__isnull=False, then=Value(1)),
+            default=Value(0),
+            output_field=IntegerField(),
+        ),
+    ).order_by(
+        "-rating_exists", "-avg_rating"  # まずはレビューが存在するかどうかで並べ替え  # 次に平均レーティングで並べ替え
     )
+
     return render(
-        request, "book/index.html", {"object_list": books, "ranking_list": ranking_list}
+        request,
+        "book/index.html",
+        {"index_book_list": index_book_list, "review_ranking": review_ranking},
     )

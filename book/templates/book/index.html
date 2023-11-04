@@ -45,10 +45,13 @@
 	<div class="col-auto m-1">
 		<select class="form-control" id="sample" onchange="viewChange();">
 			<option value="select1">
-				新しいプロダクト
+				新しい順
 			</option>
 			<option value="select2">
-				人気なプロダクト
+				閲覧回数順
+			</option>
+			<option value="select3">
+				レビュー評価順
 			</option>
 		</select>
 	</div>
@@ -57,10 +60,26 @@
 		class="album py-5 bg-light">
 
 		<!-- Bootstrapのグリッドシステムを適用 -->
-		<div class="container">
+		<div
+			class="container">
 
-			{% include "book/components/pulldown.html" %}
-
+			<!-- 行要素を配置 -->
+			<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="Box1">
+				{% for item in index_book_list %}
+					{% include "book/components/pulldown.html" %}
+				{% endfor %}
+			</div>
+			<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="Box2" style="display:none;">
+				{% for item in index_book_list|dictsortreversed:"views" %}
+					{% include "book/components/pulldown.html" %}
+				{% endfor %}
+			</div>
+			<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="Box3" style="display:none;">
+				{% for item in review_ranking %}
+					{% include "book/components/pulldown.html" %}
+				{% endfor %}
+				<!-- 行要素ここまで -->
+			</div>
 			<!-- グリッドシステムここまで -->
 		</div>
 	</div>
