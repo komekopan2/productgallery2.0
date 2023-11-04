@@ -1,5 +1,6 @@
 from django.db import models
 from .consts import MAX_RATE
+
 # Create your models here.
 
 # q:このファイルは何？
@@ -14,20 +15,23 @@ from .consts import MAX_RATE
 # class SampleModel(models.Model):
 #     title = models.CharField(max_length=100)
 #     number = models.IntegerField()
-CATEGORY = (("web", "web"), ("mobile", "mobile"),
-            ("xr", "XR"), ("game", "game"), ("other", "other"))
+CATEGORY = (
+    ("homepage", "Homepage"),
+    ("web", "web"),
+    ("mobile", "mobile"),
+    ("xr", "XR"),
+    ("game", "game"),
+    ("other", "other"),
+)
 
-RATE_CHOICES = [(x, str(x)) for x in range(0, MAX_RATE+1)]
+RATE_CHOICES = [(x, str(x)) for x in range(0, MAX_RATE + 1)]
 
 
 class Book(models.Model):
     title = models.CharField(max_length=100)
     text = models.TextField()
     thumbnail = models.ImageField(null=True, blank=True)
-    category = models.CharField(
-        max_length=100,
-        choices=CATEGORY
-    )
+    category = models.CharField(max_length=100, choices=CATEGORY)
     url = models.URLField(null=True, blank=True)
     user = models.ForeignKey("auth.User", on_delete=models.CASCADE)
     views = models.PositiveIntegerField(default=0)

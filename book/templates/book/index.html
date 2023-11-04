@@ -50,8 +50,6 @@
     </select>
 </div>
 
-
-
 <div class="album py-5 bg-light">
 
     <!-- Bootstrapのグリッドシステムを適用 -->
@@ -62,47 +60,6 @@
         <!-- グリッドシステムここまで -->
     </div>
 </div>
-<!-- <link rel="stylesheet" href="{% static 'book/css/style.css' %}"> -->
-<style>
-    /* スマートフォンの画面の場合 */
-    @media (max-width: 767px) {
-        .col-auto {
-            width: 100%;
-            max-width: 500px;
-            /* 好きな最大値に変更してください */
-        }
-    }
-
-    /* PCの画面の場合 */
-    @media (min-width: 768px) {
-        .col-auto {
-            width: 100%;
-            max-width: 9%;
-            /* 好きな割合に変更してください */
-        }
-    }
-</style>
-<script>
-    function viewChange() {
-        if (document.getElementById('sample')) {
-            id = document.getElementById('sample').value;
-            if (id == 'select1') {
-                document.getElementById('Box1').style.display = "";
-                document.getElementById('Box2').style.display = "none";
-                document.getElementById('Box3').style.display = "none";
-            } else if (id == 'select2') {
-                document.getElementById('Box1').style.display = "none";
-                document.getElementById('Box2').style.display = "";
-                document.getElementById('Box3').style.display = "none";
-            }
-            else if (id == 'select3') {
-                document.getElementById('Box1').style.display = "none";
-                document.getElementById('Box2').style.display = "none";
-                document.getElementById('Box3').style.display = "";
-            }
-        }
-
-        window.onload = viewChange;
-    }
-</script>
+<link rel="stylesheet" href="{% static 'book/css/index.css' %}">
+<script src="{% static 'book/js/index.js' %}"></script>
 {% endblock content %}
