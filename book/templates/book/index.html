@@ -66,17 +66,17 @@
 			<!-- 行要素を配置 -->
 			<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="Box1">
 				{% for item in index_book_list %}
-					{% include "book/components/pulldown.html" %}
+					{% include "book/components/catalog.html" %}
 				{% endfor %}
 			</div>
 			<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="Box2" style="display:none;">
 				{% for item in index_book_list|dictsortreversed:"views" %}
-					{% include "book/components/pulldown.html" %}
+					{% include "book/components/catalog.html" %}
 				{% endfor %}
 			</div>
 			<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="Box3" style="display:none;">
 				{% for item in review_ranking %}
-					{% include "book/components/pulldown.html" %}
+					{% include "book/components/catalog.html" %}
 				{% endfor %}
 				<!-- 行要素ここまで -->
 			</div>
