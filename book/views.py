@@ -7,6 +7,36 @@ from .forms import BookForm, ReviewForm
 from django.db.models import Avg, Case, When, Value, IntegerField, Count
 
 
+def index_book_view(request, user=None):
+    if user:
+        base_queryset = Book.objects.filter(user__username=user)
+    else:
+        base_queryset = Book.objects.all()
+
+    index_book_list = base_queryset.annotate(
+        avg_rating=Avg("review__rate"), review_count=Count("review")
+    ).order_by("-id")
+
+    review_ranking = base_queryset.annotate(
+        avg_rating=Avg("review__rate"),
+        review_count=Count("review"),
+        rating_exists=Case(
+            When(review__rate__isnull=False, then=Value(1)),
+            default=Value(0),
+            output_field=IntegerField(),
+        ),
+    ).order_by(
+        "-rating_exists",
+        "-avg_rating",
+        "-review_count",
+    )
+    return render(
+        request,
+        "book/index.html",
+        {"index_book_list": index_book_list, "review_ranking": review_ranking},
+    )
+
+
 @login_required
 def detail_book_view(request, pk):
     book = (
@@ -67,30 +97,3 @@ def create_review_view(request, book_id):
         review.save()
         return redirect(reverse("detail-book", kwargs={"pk": book_id}))
     return render(request, "book/review_form.html", {"form": form})
-
-
-def index_book_view(request):
-    index_book_list = Book.objects.annotate(
-        avg_rating=Avg("review__rate"), review_count=Count("review")
-    ).order_by("-id")
-
-    review_ranking = Book.objects.annotate(
-        avg_rating=Avg("review__rate"),
-        review_count=Count("review"),
-        # 以下のCase Whenはavg_ratingがNULLでない場合は1、そうでない場合は0をrating_existsに格納
-        rating_exists=Case(
-            When(review__rate__isnull=False, then=Value(1)),
-            default=Value(0),
-            output_field=IntegerField(),
-        ),
-    ).order_by(
-        "-rating_exists",
-        "-avg_rating",
-        "-review_count",  # まずはレビューが存在するかどうかで並べ替え、次に平均レーティング、レビュー数の順で並べ替え
-    )
-
-    return render(
-        request,
-        "book/index.html",
-        {"index_book_list": index_book_list, "review_ranking": review_ranking},
-    )
