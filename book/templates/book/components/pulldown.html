@@ -4,7 +4,7 @@
 <div
 	class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="Box1">
 	<!-- レコードが格納されたobject_listから
-	     レコードを1行ずつrecordに取り出す-->
+		     レコードを1行ずつrecordに取り出す-->
 
 	{% for item in object_list %}
 		<!-- 列要素を配置 -->
@@ -12,7 +12,7 @@
 			<div
 				class="card shadow-sm">
 				<!-- svgタグをimgに変更
-				         src属性を追加して1枚目のイメージのURLを設定 -->
+								         src属性を追加して1枚目のイメージのURLを設定 -->
 				{% if item.thumbnail %}
 					<img src="{{ item.thumbnail.url }}" class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveaspectratio="xMidYMid slice" focusable="false">
 
@@ -85,7 +85,7 @@
 <div
 	class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="Box2" style="display:none;">
 	<!-- レコードが格納されたobject_listから
-	     レコードを1行ずつrecordに取り出す-->
+		     レコードを1行ずつrecordに取り出す-->
 
 	{% for item in object_list|dictsortreversed:"views" %}
 		<!-- 列要素を配置 -->
@@ -93,7 +93,7 @@
 			<div
 				class="card shadow-sm">
 				<!-- svgタグをimgに変更
-				         src属性を追加して1枚目のイメージのURLを設定 -->
+								         src属性を追加して1枚目のイメージのURLを設定 -->
 				{% if item.thumbnail %}
 					<img src="{{ item.thumbnail.url }}" class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveaspectratio="xMidYMid slice" focusable="false">
 
