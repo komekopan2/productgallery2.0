@@ -1,65 +1,69 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}ホーム{% endblock %}
-{% block h1 %}本だなアプリ{% endblock %}
+{% block title %}ホーム
+{% endblock %}
+{% block h1 %}本だなアプリ
+{% endblock %}
 
 {% block content %}
-<!-- タイトルとナビゲーションボタン -->
-<section class="py-5 text-center container">
-    <div class="row py-lg-5">
-        <div class="col-lg-6 col-md-8 mx-auto">
-            <!-- タイトルと本文 -->
-            <h1 class="fw-light">Product Gallery</h1>
-            <p class="lead text-muted">
-                プロダクトの投稿サイトです。サムネイルも付けてくださいね！
-            </p>
-            <p>
-                <!-- ナビゲーションボタン -->
-                {% if request.user.is_authenticated %}
-                <!-- ログイン中のボタン -->
-                <a href="{% url 'create-book' %}" class="btn btn-primary my-2">プロダクト登録</a>
-                <a href="{% url 'accounts:logout' %}" class="btn btn-secondary my-2">ログアウト</a>
-                {% else %}
-                <!-- ログイン状態ではない場合のボタン -->
-                <a href="{% url 'accounts:signup' %}" class="btn btn-primary my-2">サインアップ</a>
-                <a href="{% url 'accounts:login' %}" class="btn btn-secondary my-2">ログイン</a>
-                {% endif %}
-            </p>
-            {% if messages %}
-            <ul>
-                {% for message in messages %}
-                <p class="mb-1">
-                    {{ message }}
-                </p>
-                {% endfor %}
-            </ul>
-            {% endif %}
-        </div>
-    </div>
-</section>
+	<!-- タイトルとナビゲーションボタン -->
+	<section class="py-5 text-center container">
+		<div class="row py-lg-5">
+			<div
+				class="col-lg-6 col-md-8 mx-auto">
+				<!-- タイトルと本文 -->
+				<h1 class="fw-light">Product Gallery</h1>
+				<p class="lead text-muted">
+					プロダクトの投稿サイトです。サムネイルも付けてくださいね！
+				</p>
+				<p>
+					<!-- ナビゲーションボタン -->
+					{% if request.user.is_authenticated %}
+						<!-- ログイン中のボタン -->
+						<a href="{% url 'create-book' %}" class="btn btn-primary my-2">プロダクト登録</a>
+						<a href="{% url 'accounts:logout' %}" class="btn btn-secondary my-2">ログアウト</a>
+					{% else %}
+						<!-- ログイン状態ではない場合のボタン -->
+						<a href="{% url 'accounts:signup' %}" class="btn btn-primary my-2">サインアップ</a>
+						<a href="{% url 'accounts:login' %}" class="btn btn-secondary my-2">ログイン</a>
+					{% endif %}
+				</p>
+				{% if messages %}
+					<ul>
+						{% for message in messages %}
+							<p class="mb-1">
+								{{ message }}
+							</p>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			</div>
+		</div>
+	</section>
 
-<div class="col-auto m-1">
-    <select class="form-control" id="sample" onchange="viewChange();">
-        <option value="select1">
-            新しいプロダクト
-        </option>
-        <option value="select2">
-            人気なプロダクト
-        </option>
-    </select>
-</div>
+	<div class="col-auto m-1">
+		<select class="form-control" id="sample" onchange="viewChange();">
+			<option value="select1">
+				新しいプロダクト
+			</option>
+			<option value="select2">
+				人気なプロダクト
+			</option>
+		</select>
+	</div>
 
-<div class="album py-5 bg-light">
+	<div
+		class="album py-5 bg-light">
 
-    <!-- Bootstrapのグリッドシステムを適用 -->
-    <div class="container">
+		<!-- Bootstrapのグリッドシステムを適用 -->
+		<div class="container">
 
-        {% include "book/components/pulldown.html" %}
+			{% include "book/components/pulldown.html" %}
 
-        <!-- グリッドシステムここまで -->
-    </div>
-</div>
-<link rel="stylesheet" href="{% static 'book/css/index.css' %}">
-<script src="{% static 'book/js/index.js' %}"></script>
+			<!-- グリッドシステムここまで -->
+		</div>
+	</div>
+	<link rel="stylesheet" href="{% static 'book/css/index.css' %}">
+	<script src="{% static 'book/js/index.js' %}"></script>
 {% endblock content %}
