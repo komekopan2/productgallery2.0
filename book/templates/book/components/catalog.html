@@ -1,0 +1,36 @@
+{% load static %}
+
+<!-- 列要素を配置 -->
+<div class="col">
+	<div class="card shadow-sm">
+		<button
+			type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href='{% url 'detail-book' item.pk %}'">
+			<!-- svgタグをimgに変更src属性を追加して1枚目のイメージのURLを設定 -->
+			{% if item.thumbnail %}
+				<img src="{{ item.thumbnail.url }}" class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveaspectratio="xMidYMid slice" focusable="false">
+			{% else %}
+				<img src="{% static 'book/noimage.png' %}" class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveaspectratio="xMidYMid slice" focusable="false">
+			{% endif %}
+			<title>Placeholder</title>
+			<rect width="100%" height="100%" fill="#55595c"/>
+		</button>
+
+
+		<!-- タイトルとボタンを出力するブロック -->
+		<div class="card-body">
+			<p
+				class="card-text">
+				<!-- titleフィールドを出力 -->
+				{{item.title}}
+			</p>
+			<div
+				class="d-flex justify-content-end align-items-center">
+				<!-- 投稿したユーザー名を出力-->
+				<small class="text-muted">
+					{% include "book/components/book_data.html" %}
+				</small>
+			</div>
+		</div>
+	</div>
+	<!-- 列要素ここまで -->
+</div>

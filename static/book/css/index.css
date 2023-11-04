@@ -1,17 +1,48 @@
-/* スマートフォンの画面の場合 */
-@media (max-width: 767px) {
-    .col-auto {
-        width: 100%;
-        max-width: 500px;
-        /* 好きな最大値に変更してください */
-    }
+.col-auto {
+    position: relative;
+    display: inline-block;
+    margin: 1rem;
+    padding: .5rem;
+    border: 1px solid #ddd;
+    /* 枠線を追加 */
+    border-radius: .25rem;
+    /* 角丸のデザイン */
+    background-color: #f8f9fa;
+    /* 背景色 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* 影をつける */
 }
 
-/* PCの画面の場合 */
-@media (min-width: 768px) {
+.col-auto .form-control {
+    display: block;
+    width: 100%;
+    padding: .375rem 1.75rem .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    /* 角丸のデザイン */
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.col-auto .form-control:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
+}
+
+/* オプションのスタイリング */
+.col-auto .form-control option {
+    padding: .5rem;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
     .col-auto {
         width: 100%;
-        max-width: 9%;
-        /* 好きな割合に変更してください */
+        margin-top: 0;
     }
 }

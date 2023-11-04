@@ -1,22 +1,24 @@
 {% extends "base.html" %}
 
-{% block title %}レビュー投稿{% endblock %}
-{% block h1 %}レビュー投稿{% endblock %}
+{% block title %}レビュー投稿
+{% endblock %}
+{% block h1 %}レビュー投稿
+{% endblock %}
 
 {% block content %}
-<form method="post" class="p-4 m-4 bg-light border border-success rounded form-group">
-    {% csrf_token %}
-    {% for field in form %}
-    <div class="mb-3">
-        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-        {{ field }}
-        {% if field.errors %}
-        <div class="alert alert-danger">
-            {{ field.errors|striptags }}
-        </div>
-        {% endif %}
-    </div>
-    {% endfor %}
-    <button type="submit" class="btn btn-success mt-4">投稿する</button>
-</form>
+	<form method="post" class="p-4 m-4 bg-light border border-success rounded form-group">
+		{% csrf_token %}
+		{% for field in form %}
+			<div class="mb-3">
+				<label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+				{{ field }}
+				{% if field.errors %}
+					<div class="alert alert-danger">
+						{{ field.errors|striptags }}
+					</div>
+				{% endif %}
+			</div>
+		{% endfor %}
+		<button type="submit" class="btn btn-success mt-4">投稿する</button>
+	</form>
 {% endblock content %}
