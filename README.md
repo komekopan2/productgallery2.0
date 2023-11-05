@@ -1,5 +1,5 @@
 ## アプリケーション名
-「ProductGallery」
+ProductGallery
 ## アプリケーション概要
 個人開発やチーム開発で作成したプロダクトを投稿するサイトです。
 ## URL
@@ -14,16 +14,16 @@ https://yo-tech.shimizu-v.net/
 ## 機能一覧
 ### 基本機能
 - プロダクト投稿：投稿したいプロダクトの内容を設定できます。  
-<img src="https://user-images.githubusercontent.com/103621657/230879646-9091c2c9-c30f-421f-a577-be486ceb3862.png" height="300px">
+<img src="https://github.com/komekopan2/productgallery2.0/assets/103621657/e5ddc31b-1f89-480d-a393-c2fd6d3d1c0e" height="300px">
 
-- プロダクト一覧閲覧：他ユーザーが制作したプロダクトの一覧画面を閲覧できます。ソート機能もあり新しい順、人気順で並び替えができます。  
-<img src="https://user-images.githubusercontent.com/103621657/230882465-f6a342c7-9b76-47ec-b916-58a237f43e20.png" height="200px">
+- プロダクト一覧閲覧：他ユーザーが制作したプロダクトの一覧画面を閲覧できます。ソート機能もあり新しい順、閲覧回数順、レビュー評価順で並び替えができます。  
+<img src="https://github.com/komekopan2/productgallery2.0/assets/103621657/b8f94992-6f56-4e62-8f7a-28c609110bd3" height="200px">
 
 - プロダクト詳細閲覧：他ユーザーが制作した任意のプロダクトの詳細画面を閲覧できます。プロダクトに対するレビューがある場合はここでレビューも閲覧できます。  
-<img src="https://user-images.githubusercontent.com/103621657/230881166-fd6bf3fd-dc24-4ace-8070-3a04c9874ce5.png" height="300px">
+<img src="https://github.com/komekopan2/productgallery2.0/assets/103621657/3b93a654-62b0-4830-804d-ae3e76968ccf" height="300px">
 
 - プロダクトに対するレビュー投稿：他ユーザーが制作した任意のプロダクトに対するレビューを投稿できます。  
-<img src="https://user-images.githubusercontent.com/103621657/230883427-828af476-cb12-425c-aba4-4d40e8705616.png" height="300px">
+<img src="https://github.com/komekopan2/productgallery2.0/assets/103621657/cd27510c-8c1d-4c7d-890d-6c46bc7eb6a0" height="300px">
 
 ### その他の基本機能
 - プロダクト投稿の編集：投稿したプロダクト投稿の内容を編集できます。
@@ -32,9 +32,6 @@ https://yo-tech.shimizu-v.net/
 - サインアップ
 - ログイン
 - ログアウト
-
-## ER図
-<img src="https://user-images.githubusercontent.com/103621657/230900984-3b77fdce-ac99-4cba-b45e-18b6463d16a9.png" height="750px">
 
 ## 使用技術
 ### フロントエンド
@@ -61,7 +58,12 @@ https://yo-tech.shimizu-v.net/
 ## システム構成図
 <img src="https://github.com/komekopan2/productgallery2.0/assets/103621657/246591e5-be66-4522-b1d4-ca131da08e09" height="300px">
 
-## 実装予定の機能
-- プロダクト一覧画面にフィルター機能を付け、投稿したユーザーで絞り込みできる機能
+## ユーザーからのフィードバックを基に改善したところ
+- サインアップをした時にログイン状態にする
+- プロダクトの詳細画面は未ログイン時でも閲覧可能にする
+- ユーザーごとにプロダクトが見れるように（ユーザー名でフィルタリング）
+- プロダクトを投稿するときに選択するcategoryにHomepageを追加し、ホームページも投稿できるように
+
+## 展望
 - ソーシャルログインの導入
-- 投稿しているユーザーのプロフィール画面
+- dockerで包んで開発
