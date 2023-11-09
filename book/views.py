@@ -8,6 +8,19 @@ from django.db.models import Avg, Case, When, Value, IntegerField, Count
 
 
 def index_book_view(request, user=None):
+    """
+    レビューに基づいて本のリストとランキングを表示します。
+
+    ユーザー名が提供されている場合は、そのユーザーの本をフィルタリングして表示します。そうでない場合は、すべての本を表示します。
+    各本に平均評価とレビュー数を注釈として付けます。
+
+    Args:
+        request: HttpRequestオブジェクト。
+        user: 表示するユーザーのユーザー名（任意）。
+
+    Returns:
+        本のリストとレビューランキングをレンダリングしたHttpResponse。
+    """
     if user:
         base_queryset = Book.objects.filter(user__username=user)
     else:
@@ -38,6 +51,18 @@ def index_book_view(request, user=None):
 
 
 def detail_book_view(request, pk):
+    """
+    主キーによって特定の本の詳細ページを表示します。
+
+    本の閲覧数を増やし、変更を保存します。
+
+    Args:
+        request: HttpRequestオブジェクト。
+        pk: 表示する本の主キー。
+
+    Returns:
+        本の詳細ページをレンダリングしたHttpResponse。
+    """
     book = (
         Book.objects.filter(pk=pk)
         .annotate(avg_rating=Avg("review__rate"), review_count=Count("review"))
@@ -50,6 +75,17 @@ def detail_book_view(request, pk):
 
 @login_required
 def create_book_view(request):
+    """
+    新しい本のインスタンスを作成します。
+
+    リクエストメソッドがPOSTであり、フォームが有効な場合、現在のユーザーに関連付けられた新しい本を保存します。
+
+    Args:
+        request: HttpRequestオブジェクト。
+
+    Returns:
+        作成に成功した場合はインデックスページへのリダイレクト、または本作成フォームを含むHttpResponse。
+    """
     if request.method == "POST":
         form = BookForm(request.POST, request.FILES)
         if form.is_valid():
@@ -64,6 +100,18 @@ def create_book_view(request):
 
 @login_required
 def delete_book_view(request, pk):
+    """
+    主キーによって特定の本を削除します。
+
+    本を作成したユーザーのみが削除できます。現在のユーザーが作成者でない場合はPermissionDeniedを発生させます。
+
+    Args:
+        request: HttpRequestオブジェクト。
+        pk: 削除する本の主キー。
+
+    Returns:
+        削除に成功した場合はインデックスページへのリダイレクト、または本削除確認ページを含むHttpResponse。
+    """
     book = get_object_or_404(Book, pk=pk)
     if book.user != request.user:
         raise PermissionDenied
@@ -75,6 +123,19 @@ def delete_book_view(request, pk):
 
 @login_required
 def update_book_view(request, pk):
+    """
+    主キーによって特定の本を更新します。
+
+    本を作成したユーザーのみが更新できます。現在のユーザーが作成者でない場合はPermissionDeniedを発生させます。
+    フォームが有効な場合、本を更新し、本の詳細ビューへのリダイレクトを返します。
+
+    Args:
+        request: HttpRequestオブジェクト。
+        pk: 更新する本の主キー。
+
+    Returns:
+        更新に成功した場合は本の詳細ページへのリダイレクト、または本更新フォームを含むHttpResponse。
+    """
     book = get_object_or_404(Book, pk=pk)
     if book.user != request.user:
         raise PermissionDenied
@@ -87,6 +148,18 @@ def update_book_view(request, pk):
 
 @login_required
 def create_review_view(request, book_id):
+    """
+    特定の本に対するレビューを作成します。
+
+    フォームが有効であれば、本と現在のユーザーに関連付けられたレビューを保存します。
+
+    Args:
+        request: HttpRequestオブジェクト。
+        book_id: レビューを作成する本の主キー。
+
+    Returns:
+        レビュー作成に成功した場合は本の詳細ページへのリダイレクト、またはレビュー作成フォームを含むHttpResponse。
+    """
     book = get_object_or_404(Book, pk=book_id)
     form = ReviewForm(request.POST or None)
     if form.is_valid():
