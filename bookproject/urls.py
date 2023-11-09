@@ -13,21 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-# q:このファイルは何？
-# a:djangoのURLconf
-# q:何をする？
-# a:URLとviewを紐付ける
-# q:どうやって？
-# a:urlpatternsにpathを追加する
-# q:どうやって使う？
-# a:python manage.py runserver
-
-# ブラウザから受け取ったrequestを基に、views.pyに対して指示を出す
-# views.pyはrequestを受け取り、models.pyに対して指示を出す
 
 from django.contrib import admin
 from django.urls import path, include
-
 from django.conf.urls.static import static
 
 urlpatterns = [

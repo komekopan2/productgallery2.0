@@ -10,19 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-# q:このファイルは何？
-# a:djangoの設定ファイル
 
 from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-# Path(__file__)はこのファイルのファイル名を返す
-# Path(__file__).resolve()はこのファイルの絶対パスを返す
-# Path(__file__).resolve().parentはこのファイルの親ディレクトリの絶対パスを返す
-# Path(__file__).resolve().parent.parentはこのファイルの親ディレクトリの親ディレクトリの絶対パスを返す
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -32,7 +25,6 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-# ALLOWED_HOSTS = ["komekopan2.pythonanywhere.com"]
 ALLOWED_HOSTS = [os.environ.get("ALLOWED_HOSTS")]
 
 # Application definition
@@ -66,7 +58,6 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [BASE_DIR / "templates"],
-        # DIRS: テンプレートを探す際のディレクトリを指定する
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -98,23 +89,6 @@ DATABASES = {
         "PORT": "",
     }
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'komekopan2$testdb4',
-#         'USER': 'komekopan2',
-#         'PASSWORD': 'Py55112299',
-#         'HOST': 'komekopan2.mysql.pythonanywhere-services.com',
-#         'TEST': {
-#             'NAME': 'komekopan2$test_testdb4',
-#         },
-#         'OPTIONS': {
-#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-#         },
-#     }
-# }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -154,14 +128,10 @@ USE_TZ = True
 STATIC_URL = "/static/"
 
 # staticフォルダの場所を設定
-# BASE_DIRの配下にあるstaticディレクトリを指す
-# os.path.joinを使うことでOSによって違う階層構造の表現方法を抽象化できる
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/')]
 STATIC_ROOT = "/usr/share/nginx/html/static"
 
 MEDIA_URL = "/media/"
 
-# MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_ROOT = "/usr/share/nginx/html/media"
 
 # Default primary key field type
@@ -172,14 +142,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_REDIRECT_URL = "index"
 LOGOUT_REDIRECT_URL = "index"
 
-# CSRF_COOKIE_SECURE = True
-# SESSION_COOKIE_SECURE = True
-
 BACKUP_PATH = "backup/"
 NUM_SAVED_BACKUP = 30
-
-# export DB_USER=app_admin
-# export DB_PASSWORD="Pr794613"
-# export DJANGO_SETTINGS_MODULE=bookproject.settings
-# export ALLOWED_HOSTS=<Elastic IP>
-# export DJANGO_SECRET_KEY="$+-x6rwfhx-t&-q5j9uk_x=##1&z+v*q#5uqcj!f6fr)8m(rt9"

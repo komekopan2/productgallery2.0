@@ -6,3 +6,4 @@ backup/
 __pycache__/
 venv/
 .vscode/
+accounts/migrations/
