@@ -32,4 +32,4 @@ def signup_view(request):
     else:
         form = SignupForm()
 
-    return render(request, "accounts/signup.html", {"form": form})
+    return render(request, "registration/signup.html", {"form": form})
