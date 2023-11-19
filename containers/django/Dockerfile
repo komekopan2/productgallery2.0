@@ -1,5 +1,5 @@
 # Pythonのイメージを指定
-FROM python:3
+FROM python:3.8
 # PYTHONDONTWRITEBYTECODEとPYTHONUNBUFFEREDはオプション
 # pycファイル(および__pycache__)の生成を行わないようにする
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -13,6 +13,6 @@ COPY requirements.txt /code/
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 # ソースコードをコンテナにコピー
-COPY . /code/
-COPY ./containers/django/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+COPY ./containers/django /code/
+# COPY ./containers/django/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /code/entrypoint.sh
