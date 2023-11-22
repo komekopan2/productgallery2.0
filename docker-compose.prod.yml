@@ -51,7 +51,7 @@ services:
     # ボリュームを指定
     # ローカルの/staticをコンテナの/staticにマウントする
     volumes:
-      - ./static:/static
+      - ./containers/django/static:/static
     # ローカルの80番ボートをコンテナの80番ポートとつなぐ
     ports:
       - "80:80"

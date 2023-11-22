@@ -11,6 +11,15 @@ DEBUG = os.environ.get("DEBUG") == "True"
 # ALLOWED_HOSTSを.envから取得
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
+if DEBUG:
+    # STATICFILES_DIRSは開発環境でのみ使用し、本番環境ではSTATIC_ROOTを使用します。
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, "static"),
+    ]
+else:
+    # STATIC_ROOTを設定
+    STATIC_ROOT = "/static/"
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
@@ -26,6 +35,3 @@ DATABASES = {
         # },
     }
 }
-
-# STATIC_ROOTを設定
-STATIC_ROOT = "/static/"
