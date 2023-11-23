@@ -1,7 +1,5 @@
 from .settings import *
 
-SECRET_KEY = os.environ.get("SECRET_KEY")
-
 # DEBUGを.envから取得
 # envファイルにTrue、Falseと書くとDjangoがString型と認識してしまいます
 # os.environ.get("DEBUG") == "True"を満たすとboolean型のTrueになり、
@@ -11,14 +9,18 @@ DEBUG = os.environ.get("DEBUG") == "True"
 # ALLOWED_HOSTSを.envから取得
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
+SECRET_KEY = os.environ.get("SECRET_KEY")
+
 if DEBUG:
     # STATICFILES_DIRSは開発環境でのみ使用し、本番環境ではSTATIC_ROOTを使用します。
     STATICFILES_DIRS = [
         os.path.join(BASE_DIR, "static"),
     ]
+    MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 else:
     # STATIC_ROOTを設定
     STATIC_ROOT = "/static/"
+    MEDIA_ROOT = "/media/"
 
 DATABASES = {
     "default": {
