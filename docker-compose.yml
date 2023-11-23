@@ -11,9 +11,6 @@ services:
       # ビルドコンテキストはカレントディレクトリ
       context: .
       dockerfile: containers/postgres/Dockerfile
-    # M1チップでも動くように
-    # Intel Macの場合あってもなくても動く
-    # platform: linux/x86_64
     # DBのボリュームを指定
     # ローカルの/data/dbをコンテナの/var/lib/postgresql/dataにマウントする
     volumes:
@@ -42,8 +39,10 @@ services:
     # ローカルのカレントディレクトリをコンテナの/codeにマウントする
     # ローカルの/staticをコンテナの/staticにマウントする
     volumes:
-      - ./containers/django:/code
       - ./containers/django/static:/static
+      - ./containers/django:/code
+      - static:/static
+      - media:/media
     # ローカルの8000番ポートとコンテナの8000番ポートをつなぐ
     ports:
       - "8000:8000"
@@ -59,3 +58,4 @@ services:
 volumes:
   db_data:
   static:
+  media:

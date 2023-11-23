@@ -14,9 +14,9 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 if DEBUG:
     # STATICFILES_DIRSは開発環境でのみ使用し、本番環境ではSTATIC_ROOTを使用します。
     STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, "static"),
+        "/static",
     ]
-    MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+    MEDIA_ROOT = "/media/"
 else:
     # STATIC_ROOTを設定
     STATIC_ROOT = "/static/"
