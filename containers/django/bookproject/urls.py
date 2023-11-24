@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
+import os
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -24,14 +25,17 @@ urlpatterns = [
     path("", include("book.urls")),
 ]
 
-try:
-    from . import local_settings
-
-    urlpatterns += static(
-        local_settings.STATIC_URL, document_root=local_settings.STATICFILES_DIRS
-    )
-    urlpatterns += static(
-        local_settings.MEDIA_URL, document_root=local_settings.MEDIA_ROOT
-    )
-except:
+if os.environ.get("DEBUG") == "False":
     pass
+elif os.environ.get("DJANGO_SETTINGS_MODULE") == "bookproject.local_settings":
+    from . import local_settings as settings
+
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+elif os.environ.get("DJANGO_SETTINGS_MODULE") == "bookproject.docker_settings":
+    from . import docker_settings as settings
+
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+else:
+    raise ValueError("Unknown DJANGO_SETTINGS_MODULE")
