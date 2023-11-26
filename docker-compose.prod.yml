@@ -13,7 +13,7 @@ services:
     ports:
       - "5432:5432"
     healthcheck:
-      test: pg_isready -U "${DB_USER:-postgres}" || exit 1
+      test: pg_isready -U "${POSTGRES_USER:-postgres}" || exit 1
       interval: 10s
       timeout: 5s
       retries: 5
