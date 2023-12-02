@@ -5,9 +5,11 @@ from django.urls import reverse
 from django.core.exceptions import PermissionDenied
 from .forms import BookForm, ReviewForm
 from django.db.models import Avg, Case, When, Value, IntegerField, Count
+from django.http import HttpRequest, HttpResponse
+from typing import Optional
 
 
-def index_book_view(request, user=None):
+def index_book_view(request: HttpRequest, user: Optional[str] = None) -> HttpResponse:
     """
     レビューに基づいて本のリストとランキングを表示します。
 
@@ -50,7 +52,7 @@ def index_book_view(request, user=None):
     )
 
 
-def detail_book_view(request, pk):
+def detail_book_view(request: HttpRequest, pk: int) -> HttpResponse:
     """
     主キーによって特定の本の詳細ページを表示します。
 
@@ -74,7 +76,7 @@ def detail_book_view(request, pk):
 
 
 @login_required
-def create_book_view(request):
+def create_book_view(request: HttpRequest) -> HttpResponse:
     """
     新しい本のインスタンスを作成します。
 
@@ -99,7 +101,7 @@ def create_book_view(request):
 
 
 @login_required
-def delete_book_view(request, pk):
+def delete_book_view(request: HttpRequest, pk: int) -> HttpResponse:
     """
     主キーによって特定の本を削除します。
 
@@ -122,7 +124,7 @@ def delete_book_view(request, pk):
 
 
 @login_required
-def update_book_view(request, pk):
+def update_book_view(request: HttpRequest, pk: int) -> HttpResponse:
     """
     主キーによって特定の本を更新します。
 
@@ -147,7 +149,7 @@ def update_book_view(request, pk):
 
 
 @login_required
-def create_review_view(request, book_id):
+def create_review_view(request: HttpRequest, book_id: int) -> HttpResponse:
     """
     特定の本に対するレビューを作成します。
 
