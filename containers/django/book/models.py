@@ -1,15 +1,6 @@
 from django.db import models
-from .consts import MAX_RATE
+from .consts import MAX_RATE, CATEGORY
 
-# カテゴリの選択肢を定義
-CATEGORY = (
-    ("homepage", "Homepage"),
-    ("web", "web"),
-    ("mobile", "mobile"),
-    ("xr", "XR"),
-    ("game", "game"),
-    ("other", "other"),
-)
 
 # 評価の選択肢を定義（0からMAX_RATEまで）
 RATE_CHOICES = [(x, str(x)) for x in range(0, MAX_RATE + 1)]
