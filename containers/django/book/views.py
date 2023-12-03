@@ -1,13 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpRequest, HttpResponse, Http404
 from django.contrib.auth.decorators import login_required
-from .models import Book, Review
-from django.urls import reverse
 from django.core.exceptions import PermissionDenied
+from django.db.models import F
+from django.urls import reverse
+from .models import Book, Review
 from .forms import BookForm, ReviewForm
-from django.db.models import Avg, Case, When, Value, IntegerField, Count
+from typing import Optional
 
 
-def index_book_view(request, user=None):
+def index_book_view(request: HttpRequest, user: Optional[str] = None) -> HttpResponse:
     """
     レビューに基づいて本のリストとランキングを表示します。
 
@@ -23,26 +25,14 @@ def index_book_view(request, user=None):
     """
     if user:
         base_queryset = Book.objects.filter(user__username=user)
+        if not base_queryset:
+            raise Http404
     else:
         base_queryset = Book.objects.all()
 
-    index_book_list = base_queryset.annotate(
-        avg_rating=Avg("review__rate"), review_count=Count("review")
-    ).order_by("-id")
+    index_book_list = base_queryset.order_by("-id")
+    review_ranking = base_queryset.order_by((F("review_avg").desc(nulls_last=True)))
 
-    review_ranking = base_queryset.annotate(
-        avg_rating=Avg("review__rate"),
-        review_count=Count("review"),
-        rating_exists=Case(
-            When(review__rate__isnull=False, then=Value(1)),
-            default=Value(0),
-            output_field=IntegerField(),
-        ),
-    ).order_by(
-        "-rating_exists",
-        "-avg_rating",
-        "-review_count",
-    )
     return render(
         request,
         "book/index.html",
@@ -50,7 +40,7 @@ def index_book_view(request, user=None):
     )
 
 
-def detail_book_view(request, pk):
+def detail_book_view(request: HttpRequest, pk: int) -> HttpResponse:
     """
     主キーによって特定の本の詳細ページを表示します。
 
@@ -63,18 +53,13 @@ def detail_book_view(request, pk):
     Returns:
         本の詳細ページをレンダリングしたHttpResponse。
     """
-    book = (
-        Book.objects.filter(pk=pk)
-        .annotate(avg_rating=Avg("review__rate"), review_count=Count("review"))
-        .get()
-    )
-    book.views += 1
-    book.save()
+    book = get_object_or_404(Book, pk=pk)
+    book.views_increment()
     return render(request, "book/book_detail.html", {"item": book})
 
 
 @login_required
-def create_book_view(request):
+def create_book_view(request: HttpRequest) -> HttpResponse:
     """
     新しい本のインスタンスを作成します。
 
@@ -99,7 +84,7 @@ def create_book_view(request):
 
 
 @login_required
-def delete_book_view(request, pk):
+def delete_book_view(request: HttpRequest, pk: int) -> HttpResponse:
     """
     主キーによって特定の本を削除します。
 
@@ -122,7 +107,7 @@ def delete_book_view(request, pk):
 
 
 @login_required
-def update_book_view(request, pk):
+def update_book_view(request: HttpRequest, pk: int) -> HttpResponse:
     """
     主キーによって特定の本を更新します。
 
@@ -147,7 +132,7 @@ def update_book_view(request, pk):
 
 
 @login_required
-def create_review_view(request, book_id):
+def create_review_view(request: HttpRequest, book_id: int) -> HttpResponse:
     """
     特定の本に対するレビューを作成します。
 
@@ -167,5 +152,6 @@ def create_review_view(request, book_id):
         review.book = book
         review.user = request.user
         review.save()
+        book.review_recache()
         return redirect(reverse("detail-book", kwargs={"pk": book_id}))
     return render(request, "book/review_form.html", {"form": form})
