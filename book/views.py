@@ -4,9 +4,10 @@ from .models import Book, Review
 from django.urls import reverse
 from django.core.exceptions import PermissionDenied
 from .forms import BookForm, ReviewForm
-from django.db.models import Avg, Case, When, Value, IntegerField, Count
+from django.db.models import Case, When, Value, IntegerField
 from django.http import HttpRequest, HttpResponse
 from typing import Optional
+from django.db.models import F
 
 
 def index_book_view(request: HttpRequest, user: Optional[str] = None) -> HttpResponse:
@@ -28,23 +29,9 @@ def index_book_view(request: HttpRequest, user: Optional[str] = None) -> HttpRes
     else:
         base_queryset = Book.objects.all()
 
-    index_book_list = base_queryset.annotate(
-        avg_rating=Avg("review__rate"), review_count=Count("review")
-    ).order_by("-id")
+    index_book_list = base_queryset.order_by("-id")
+    review_ranking = base_queryset.order_by((F("review_avg").desc(nulls_last=True)))
 
-    review_ranking = base_queryset.annotate(
-        avg_rating=Avg("review__rate"),
-        review_count=Count("review"),
-        rating_exists=Case(
-            When(review__rate__isnull=False, then=Value(1)),
-            default=Value(0),
-            output_field=IntegerField(),
-        ),
-    ).order_by(
-        "-rating_exists",
-        "-avg_rating",
-        "-review_count",
-    )
     return render(
         request,
         "book/index.html",
@@ -65,11 +52,7 @@ def detail_book_view(request: HttpRequest, pk: int) -> HttpResponse:
     Returns:
         本の詳細ページをレンダリングしたHttpResponse。
     """
-    book = (
-        Book.objects.filter(pk=pk)
-        .annotate(avg_rating=Avg("review__rate"), review_count=Count("review"))
-        .get()
-    )
+    book = Book.objects.get(pk=pk)
     book.views += 1
     book.save()
     return render(request, "book/book_detail.html", {"item": book})
@@ -169,5 +152,6 @@ def create_review_view(request: HttpRequest, book_id: int) -> HttpResponse:
         review.book = book
         review.user = request.user
         review.save()
+        book.review_recache()
         return redirect(reverse("detail-book", kwargs={"pk": book_id}))
     return render(request, "book/review_form.html", {"form": form})

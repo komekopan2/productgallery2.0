@@ -1,5 +1,6 @@
 from django.db import models
 from .consts import MAX_RATE, CATEGORY
+from django.db.models import Avg
 
 
 # 評価の選択肢を定義（0からMAX_RATEまで）
@@ -27,9 +28,20 @@ class Book(models.Model):
     url = models.URLField(null=True, blank=True, verbose_name="URL(任意)")
     user = models.ForeignKey("auth.User", on_delete=models.CASCADE)
     views = models.PositiveIntegerField(default=0)
+    review_avg = models.FloatField(null=True, default=None)
+    review_count = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title
+
+    def review_recache(self):
+        """
+        レビューの平均値とレビュー数を再計算して保存します。
+        """
+        reviews = Review.objects.filter(book=self)
+        self.review_avg = reviews.aggregate(Avg("rate"))["rate__avg"]
+        self.review_count = reviews.count()
+        self.save()
 
 
 class Review(models.Model):
