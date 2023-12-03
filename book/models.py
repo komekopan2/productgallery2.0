@@ -34,6 +34,13 @@ class Book(models.Model):
     def __str__(self) -> str:
         return self.title
 
+    def views_increment(self):
+        """
+        本の閲覧数を増やし、変更を保存します。
+        """
+        self.views += 1
+        self.save()
+
     def review_recache(self):
         """
         レビューの平均値とレビュー数を再計算して保存します。

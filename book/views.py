@@ -52,8 +52,7 @@ def detail_book_view(request: HttpRequest, pk: int) -> HttpResponse:
         本の詳細ページをレンダリングしたHttpResponse。
     """
     book = Book.objects.get(pk=pk)
-    book.views += 1
-    book.save()
+    book.views_increment()
     return render(request, "book/book_detail.html", {"item": book})
 
 
