@@ -4,7 +4,6 @@ from .models import Book, Review
 from django.urls import reverse
 from django.core.exceptions import PermissionDenied
 from .forms import BookForm, ReviewForm
-from django.db.models import Case, When, Value, IntegerField
 from django.http import HttpRequest, HttpResponse
 from typing import Optional
 from django.db.models import F
