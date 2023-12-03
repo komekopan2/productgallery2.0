@@ -13,18 +13,18 @@ class Book(models.Model):
     Attributes:
         title (models.CharField): 本のタイトル。
         text (models.TextField): 本の説明や内容。
-        thumbnail (models.ImageField): 本のサムネイル画像。
         category (models.CharField): 本のカテゴリー。
+        thumbnail (models.ImageField): 本のサムネイル画像。
         url (models.URLField): 本の詳細情報へのURL。
         user (models.ForeignKey): 本を登録したユーザーへの外部キー。
         views (models.PositiveIntegerField): 本が閲覧された回数。
     """
 
-    title = models.CharField(max_length=100)
-    text = models.TextField()
-    thumbnail = models.ImageField(null=True, blank=True)
-    category = models.CharField(max_length=100, choices=CATEGORY)
-    url = models.URLField(null=True, blank=True)
+    title = models.CharField(max_length=100, verbose_name="タイトル")
+    text = models.TextField(verbose_name="説明")
+    category = models.CharField(max_length=100, choices=CATEGORY, verbose_name="カテゴリー")
+    thumbnail = models.ImageField(null=True, blank=True, verbose_name="サムネイル(任意)")
+    url = models.URLField(null=True, blank=True, verbose_name="URL(任意)")
     user = models.ForeignKey("auth.User", on_delete=models.CASCADE)
     views = models.PositiveIntegerField(default=0)
 
@@ -39,15 +39,15 @@ class Review(models.Model):
     Attributes:
         book (models.ForeignKey): レビュー対象の本への外部キー。
         title (models.CharField): レビューのタイトル。
-        text (models.TextField): レビューの詳細テキスト。
-        rate (models.IntegerField): 本への評価。
+        text (models.TextField): レビュー内容。
+        rate (models.IntegerField): 星の数。
         user (models.ForeignKey): レビューを登録したユーザーへの外部キー。
     """
 
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    title = models.CharField(max_length=100)
-    text = models.TextField()
-    rate = models.IntegerField(choices=RATE_CHOICES)
+    title = models.CharField(max_length=100, verbose_name="タイトル")
+    text = models.TextField(verbose_name="レビュー内容")
+    rate = models.IntegerField(choices=RATE_CHOICES, verbose_name="星の数")
     user = models.ForeignKey("auth.User", on_delete=models.CASCADE)
 
     def __str__(self):
