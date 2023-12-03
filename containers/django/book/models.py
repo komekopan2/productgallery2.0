@@ -31,8 +31,15 @@ class Book(models.Model):
     review_avg = models.FloatField(null=True, default=None)
     review_count = models.IntegerField(default=0)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.title
+
+    def views_increment(self):
+        """
+        本の閲覧数を増やし、変更を保存します。
+        """
+        self.views += 1
+        self.save()
 
     def review_recache(self):
         """
@@ -62,5 +69,5 @@ class Review(models.Model):
     rate = models.IntegerField(choices=RATE_CHOICES, verbose_name="星の数")
     user = models.ForeignKey("auth.User", on_delete=models.CASCADE)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.title
