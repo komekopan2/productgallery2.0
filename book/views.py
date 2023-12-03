@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpRequest, HttpResponse, Http404
 from django.contrib.auth.decorators import login_required
-from .models import Book, Review
-from django.urls import reverse
 from django.core.exceptions import PermissionDenied
-from .forms import BookForm, ReviewForm
-from django.http import HttpRequest, HttpResponse
-from typing import Optional
 from django.db.models import F
+from django.urls import reverse
+from .models import Book, Review
+from .forms import BookForm, ReviewForm
+from typing import Optional
 
 
 def index_book_view(request: HttpRequest, user: Optional[str] = None) -> HttpResponse:
@@ -25,6 +25,8 @@ def index_book_view(request: HttpRequest, user: Optional[str] = None) -> HttpRes
     """
     if user:
         base_queryset = Book.objects.filter(user__username=user)
+        if not base_queryset:
+            raise Http404
     else:
         base_queryset = Book.objects.all()
 
@@ -51,7 +53,7 @@ def detail_book_view(request: HttpRequest, pk: int) -> HttpResponse:
     Returns:
         本の詳細ページをレンダリングしたHttpResponse。
     """
-    book = Book.objects.get(pk=pk)
+    book = get_object_or_404(Book, pk=pk)
     book.views_increment()
     return render(request, "book/book_detail.html", {"item": book})
 
