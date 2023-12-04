@@ -25,11 +25,11 @@ def index_book_view(request: HttpRequest, user: Optional[str] = None) -> HttpRes
         本のリストとレビューランキングをレンダリングしたHttpResponse。
     """
     if user:
-        base_queryset = Book.objects.filter(user__username=user)
+        base_queryset: BaseManager[Book] = Book.objects.filter(user__username=user)
         if not base_queryset:
             raise Http404
     else:
-        base_queryset = Book.objects.all()
+        base_queryset: BaseManager[Book] = Book.objects.all()
 
     index_book_list: Final[BaseManager[Book]] = base_queryset.order_by("-id")
     review_ranking: Final[BaseManager[Book]] = base_queryset.order_by(
@@ -75,12 +75,12 @@ def create_book_view(request: HttpRequest) -> HttpResponse:
         作成に成功した場合はインデックスページへのリダイレクト、または本作成フォームを含むHttpResponse。
     """
     if request.method == "POST":
-        form = BookForm(request.POST, request.FILES)
+        form: BookForm = BookForm(request.POST, request.FILES)
         if form.is_valid():
             form.create_book(request)
             return redirect(reverse("index"))
     elif request.method == "GET":
-        form = BookForm()
+        form: BookForm = BookForm()
     else:
         raise Http404
     return render(request, "book/book_create.html", {"form": form})
