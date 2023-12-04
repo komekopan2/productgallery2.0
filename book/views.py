@@ -74,9 +74,7 @@ def create_book_view(request: HttpRequest) -> HttpResponse:
     if request.method == "POST":
         form = BookForm(request.POST, request.FILES)
         if form.is_valid():
-            book = form.save(commit=False)
-            book.user = request.user
-            book.save()
+            form.create_book(request)
             return redirect(reverse("index"))
     else:
         form = BookForm()
@@ -148,10 +146,6 @@ def create_review_view(request: HttpRequest, book_id: int) -> HttpResponse:
     book = get_object_or_404(Book, pk=book_id)
     form = ReviewForm(request.POST or None)
     if form.is_valid():
-        review = form.save(commit=False)
-        review.book = book
-        review.user = request.user
-        review.save()
-        book.review_recache()
+        form.create_review(request, book)
         return redirect(reverse("detail-book", kwargs={"pk": book_id}))
     return render(request, "book/review_form.html", {"form": form})
