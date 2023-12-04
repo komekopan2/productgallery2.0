@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpRequest, HttpResponse, Http404
 from django.contrib.auth.decorators import login_required
+from django.db.models.manager import BaseManager
 from django.core.exceptions import PermissionDenied
 from django.db.models import F
 from django.urls import reverse
 from .models import Book, Review
 from .forms import BookForm, ReviewForm
-from typing import Optional
+from typing import Optional, Final
 
 
 def index_book_view(request: HttpRequest, user: Optional[str] = None) -> HttpResponse:
@@ -30,8 +31,10 @@ def index_book_view(request: HttpRequest, user: Optional[str] = None) -> HttpRes
     else:
         base_queryset = Book.objects.all()
 
-    index_book_list = base_queryset.order_by("-id")
-    review_ranking = base_queryset.order_by((F("review_avg").desc(nulls_last=True)))
+    index_book_list: Final[BaseManager[Book]] = base_queryset.order_by("-id")
+    review_ranking: Final[BaseManager[Book]] = base_queryset.order_by(
+        (F("review_avg").desc(nulls_last=True))
+    )
 
     return render(
         request,
@@ -53,7 +56,7 @@ def detail_book_view(request: HttpRequest, pk: int) -> HttpResponse:
     Returns:
         本の詳細ページをレンダリングしたHttpResponse。
     """
-    book = get_object_or_404(Book, pk=pk)
+    book: Final[Book] = get_object_or_404(Book, pk=pk)
     book.views_increment()
     return render(request, "book/book_detail.html", {"item": book})
 
@@ -76,8 +79,10 @@ def create_book_view(request: HttpRequest) -> HttpResponse:
         if form.is_valid():
             form.create_book(request)
             return redirect(reverse("index"))
-    else:
+    elif request.method == "GET":
         form = BookForm()
+    else:
+        raise Http404
     return render(request, "book/book_create.html", {"form": form})
 
 
@@ -95,13 +100,16 @@ def delete_book_view(request: HttpRequest, pk: int) -> HttpResponse:
     Returns:
         削除に成功した場合はインデックスページへのリダイレクト、または本削除確認ページを含むHttpResponse。
     """
-    book = get_object_or_404(Book, pk=pk)
+    book: Final[Book] = get_object_or_404(Book, pk=pk)
     if book.user != request.user:
         raise PermissionDenied
     if request.method == "POST":
         book.delete()
         return redirect(reverse("index"))
-    return render(request, "book/book_delete.html", {"object": book})
+    elif request.method == "GET":
+        return render(request, "book/book_delete.html", {"object": book})
+    else:
+        raise Http404
 
 
 @login_required
@@ -119,10 +127,12 @@ def update_book_view(request: HttpRequest, pk: int) -> HttpResponse:
     Returns:
         更新に成功した場合は本の詳細ページへのリダイレクト、または本更新フォームを含むHttpResponse。
     """
-    book = get_object_or_404(Book, pk=pk)
+    book: Final[Book] = get_object_or_404(Book, pk=pk)
     if book.user != request.user:
         raise PermissionDenied
-    form = BookForm(request.POST or None, request.FILES or None, instance=book)
+    form: Final[BookForm] = BookForm(
+        request.POST or None, request.FILES or None, instance=book
+    )
     if form.is_valid():
         form.save()
         return redirect(reverse("detail-book", kwargs={"pk": pk}))
@@ -143,8 +153,8 @@ def create_review_view(request: HttpRequest, book_id: int) -> HttpResponse:
     Returns:
         レビュー作成に成功した場合は本の詳細ページへのリダイレクト、またはレビュー作成フォームを含むHttpResponse。
     """
-    book = get_object_or_404(Book, pk=book_id)
-    form = ReviewForm(request.POST or None)
+    book: Final[Book] = get_object_or_404(Book, pk=book_id)
+    form: Final[ReviewForm] = ReviewForm(request.POST or None)
     if form.is_valid():
         form.create_review(request, book)
         return redirect(reverse("detail-book", kwargs={"pk": book_id}))

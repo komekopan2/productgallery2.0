@@ -1,6 +1,7 @@
 from django import forms
 from .models import Book, Review
 from django.http import HttpRequest
+from typing import Final
 
 
 class BookForm(forms.ModelForm):
@@ -23,7 +24,7 @@ class BookForm(forms.ModelForm):
         Args:
             request: HttpRequestオブジェクト。
         """
-        book = self.save(commit=False)
+        book: Final[Book] = self.save(commit=False)
         book.user = request.user
         book.save()
 
@@ -53,7 +54,7 @@ class ReviewForm(forms.ModelForm):
             request: HttpRequestオブジェクト。
             book: レビュー対象の本のインスタンス。
         """
-        review = self.save(commit=False)
+        review: Final[Review] = self.save(commit=False)
         review.book = book
         review.user = request.user
         review.save()

@@ -1,6 +1,8 @@
 from django.db import models
 from .consts import MAX_RATE, CATEGORY
 from django.db.models import Avg
+from django.db.models.manager import BaseManager
+from typing import Final
 
 
 # 評価の選択肢を定義（0からMAX_RATEまで）
@@ -34,18 +36,18 @@ class Book(models.Model):
     def __str__(self) -> str:
         return self.title
 
-    def views_increment(self):
+    def views_increment(self) -> None:
         """
         本の閲覧数を増やし、変更を保存します。
         """
         self.views += 1
         self.save()
 
-    def review_recache(self):
+    def review_recache(self) -> None:
         """
         レビューの平均値とレビュー数を再計算して保存します。
         """
-        reviews = Review.objects.filter(book=self)
+        reviews: Final[BaseManager[Review]] = Review.objects.filter(book=self)
         self.review_avg = reviews.aggregate(Avg("rate"))["rate__avg"]
         self.review_count = reviews.count()
         self.save()
