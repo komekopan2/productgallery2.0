@@ -1,5 +1,7 @@
 from django import forms
 from .models import Book, Review
+from django.http import HttpRequest
+from typing import Final
 
 
 class BookForm(forms.ModelForm):
@@ -14,6 +16,17 @@ class BookForm(forms.ModelForm):
         fields (list[str]): フォームに表示されるフィールドのリスト。
             'title', 'text', 'category', 'thumbnail', 'url' を含みます。
     """
+
+    def create_book(self, request: HttpRequest) -> None:
+        """
+        フォームの入力をもとにBookモデルのインスタンスを作成します。
+
+        Args:
+            request: HttpRequestオブジェクト。
+        """
+        book: Final[Book] = self.save(commit=False)
+        book.user = request.user
+        book.save()
 
     class Meta:
         model = Book
@@ -32,6 +45,20 @@ class ReviewForm(forms.ModelForm):
         fields (list[str]): フォームに表示されるフィールドのリスト。
             'title', 'text', 'rate' を含みます。
     """
+
+    def create_review(self, request: HttpRequest, book: Book) -> None:
+        """
+        フォームの入力をもとにReviewモデルのインスタンスを作成します。
+
+        Args:
+            request: HttpRequestオブジェクト。
+            book: レビュー対象の本のインスタンス。
+        """
+        review: Final[Review] = self.save(commit=False)
+        review.book = book
+        review.user = request.user
+        review.save()
+        book.review_recache()
 
     class Meta:
         model = Review
