@@ -1,9 +1,12 @@
 db.sqlite3
 local_settings.py
 .env
+.env.prod
 media/
 backup/
 __pycache__/
 venv/
 .vscode/
 accounts/migrations/
+manual.txt
+/containers/django/static/admin/
